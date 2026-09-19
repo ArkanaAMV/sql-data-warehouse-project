@@ -1,3 +1,5 @@
+
+
 -- Create the data warehouse database
 CREATE DATABASE data_warehouse;
 GO
