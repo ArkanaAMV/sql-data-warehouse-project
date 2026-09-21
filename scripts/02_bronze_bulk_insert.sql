@@ -7,7 +7,10 @@ BEGIN
     DECLARE @end_time DATETIME;
     DECLARE @elapsed_time INT;
     DECLARE @row_count INT;
+    DECLARE @batch_start_time DATETIME;
+    DECLARE @batch_end_time DATETIME;
     BEGIN TRY
+        SET @batch_start_time = GETDATE();
         PRINT 'INICIO DE CARGA - CAPA BRONZE';
         PRINT '========================================';
 
@@ -128,6 +131,9 @@ BEGIN
 
         PRINT '========================================';
         PRINT 'FIN DE CARGA - CAPA BRONZE';
+    SET @batch_end_time = GETDATE();
+    SET @elapsed_time = DATEDIFF(SECOND, @batch_start_time, @batch_end_time);
+    PRINT 'Tiempo total de carga: ' + CAST(@elapsed_time AS VARCHAR(10)) + ' segundos';
     END TRY
     BEGIN CATCH
         PRINT 'ERROR OCCURRED DURING BRONZE LOAD: ' + CAST(ERROR_NUMBER() AS NVARCHAR(100));
